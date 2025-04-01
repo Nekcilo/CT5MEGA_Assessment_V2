@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class MathsLib
 {
@@ -21,16 +23,31 @@ public class MathsLib
         return new MyVector3(((A.ypos * B.zpos) - (A.zpos * B.ypos)), ((A.zpos * B.xpos) - (A.xpos * B.zpos)), ((A.xpos * B.ypos) - (A.ypos * B.xpos)));
     }
 
-    // public static Vector3 EulerAnglesToDirection(Vector3 EulerAngles)
-    // {
-    //     Vector3 rv = new Vector3();
+    public static Vector3 VectorCrossProduct(Vector3 A, Vector3 B)
+    {
+        return new Vector3(((A.y * B.z) - (A.z * B.y)), ((A.z * B.x) - (A.x * B.z)), ((A.x * B.y) - (A.y * B.x)));
+    }
 
-    //     rv.x = Mathf.Cos(EulerAngles.y) * Mathf.Cos(EulerAngles.x);
-    //     rv.y = Mathf.Sin(EulerAngles.x);
-    //     rv.z = Mathf.Cos(EulerAngles.x) * Mathf.Sin(EulerAngles.y);
+    public static Vector3 EulerAnglesToDirection(Vector3 EulerAngles)
+    {
+        Vector3 rv = new Vector3();
 
-    //     return rv;
-    // }
+        rv.x = Mathf.Cos(EulerAngles.y) * Mathf.Cos(EulerAngles.x);
+        rv.y = Mathf.Sin(EulerAngles.x);
+        rv.z = Mathf.Cos(EulerAngles.x) * Mathf.Sin(EulerAngles.y);
+
+        return rv;
+    }
+
+     public static MyVector3 LinearInterpolation(MyVector3 Vec1, MyVector3 Vec2, float T)
+    {
+        return Vec1 * (1.0f - T) + Vec2 * T;
+    }
+
+    public static Vector3 LinearInterpolation(Vector3 Vec1, Vector3 Vec2, float T)
+    {
+        return Vec1 * (1.0f - T) + Vec2 * T;
+    }
 }
 
 public class MyVector3
@@ -80,7 +97,7 @@ public class MyVector3
         return Divide(new MyVector3(xpos, ypos, zpos), Length());
     }
 
-    static float DotProduct(MyVector3 Vec1, MyVector3 Vec2, bool ShouldNormalize = true)
+    public static float DotProduct(MyVector3 Vec1, MyVector3 Vec2, bool ShouldNormalize = true)
     {
         float rv;
 
@@ -97,9 +114,8 @@ public class MyVector3
         }
     }
 
-
     public float LengthSq()
-    {
+    {     
         //Squared
         return xpos * xpos + ypos * ypos + zpos * zpos;
     }
@@ -112,8 +128,115 @@ public class MyVector3
     }
 
 
-    public Vector3 ToUnityVector()
+    public static Vector3 ToUnityVector(MyVector3 Vec1)
     {
-        return new Vector3(xpos, ypos, zpos);
+        return new Vector3(Vec1.xpos, Vec1.ypos, Vec1.zpos);
+    }
+
+    public static MyVector3 ToMyVector(Vector3 Vec1)
+    {
+        return new MyVector3(Vec1.x, Vec1.y, Vec1.z);
+    }
+
+
+    //Overloads yippppppeeeeeee
+    public static MyVector3 operator *(MyVector3 Vec1, float f)
+    {
+        return Multiply(Vec1, f);
+    }
+
+    public static MyVector3 operator *(float f, MyVector3 Vec1)
+    {
+        return Multiply(Vec1, f);
+    }
+
+
+    public static MyVector3 operator /(MyVector3 Vec1, float f)
+    {
+        return Divide(Vec1, f);
+    }
+
+    public static MyVector3 operator +(MyVector3 Vec1, MyVector3 Vec2)
+    {
+        return Addition(Vec1, Vec2);
+    }
+
+    public static MyVector3 operator -(MyVector3 Vec1, MyVector3 Vec2)
+    {
+        return Subtraction(Vec1, Vec2);
+    }
+
+        public static MyVector3 operator -(MyVector3 Vec1)
+    {
+        return new MyVector3(-Vec1.xpos, -Vec1.ypos, -Vec1.zpos);
+    }
+}
+
+public class Quat
+{
+    public float w, x, y, z;
+
+    public Quat(float Angle, MyVector3 Axis)
+    {
+        float halfAngle = Angle / 2;
+        w = Mathf.Cos(halfAngle);
+        x = Axis.xpos * Mathf.Sin(halfAngle);
+        y = Axis.ypos * Mathf.Sin(halfAngle);
+        z = Axis.zpos * Mathf.Sin(halfAngle);
+    }
+
+    public MyVector3 axis
+    {
+        get 
+        {
+            return new MyVector3(x, y, z);
+        }
+
+        set
+        {
+            x = value.xpos;
+            y = value.ypos;
+            z = value.zpos;
+        }
+    }
+
+    public static Quat operator*(Quat S, Quat R)
+    {
+        return new Quat (((S.w * R.w) - MyVector3.DotProduct(S.axis, R.axis, false)), ((R.axis * S.w) + (R.w * S.axis) + MathsLib.VectorCrossProduct(R.axis, S.axis)));
+    }
+
+    public Quat Inverse()
+    {
+        return new Quat(w, -axis);
+    }
+
+    public Vector4 GetAxisAngle()
+    {
+        Vector4 rv = new Vector4();
+
+        float halfAngle = Mathf.Acos(w);
+        rv.w = halfAngle * 2;
+
+        rv.x = x / Mathf.Sin(halfAngle);
+        rv.y = y / Mathf.Sin(halfAngle);
+        rv.z = z / Mathf.Sin(halfAngle);
+
+        return rv;
+    }
+
+    public static Quat SLERP(Quat q, Quat r, float t)
+    {
+        t = Mathf.Clamp(t, 0.0f, 1.0f);
+
+        Quat d = r * q.Inverse();
+        Vector4 AxisAngle = d.GetAxisAngle();
+        Quat dT = new Quat(AxisAngle.w * t, new MyVector3(AxisAngle.x, AxisAngle.y, AxisAngle.z));
+    
+        return dT * q;
+    }
+
+    public static Quaternion ToUnityQuat(Quat Quat1)
+    {
+        return new Quaternion(Quat1.x, Quat1.y, Quat1.z, Quat1.w);
     }
 }
