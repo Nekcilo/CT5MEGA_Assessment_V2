@@ -185,6 +185,14 @@ public class Quat
         z = Axis.zpos * Mathf.Sin(halfAngle);
     }
 
+    public Quat(float QuatW, float QuatX, float QuatY, float QuatZ)
+    {
+        w = QuatW;
+        x = QuatX;
+        y = QuatY;
+        z = QuatZ;
+    }
+
     public MyVector3 axis
     {
         get 
@@ -243,29 +251,31 @@ public class Quat
 
 public class Matrix4by4
 {
+    public float[,] values; // [row, col]
+
     public Matrix4by4(Vector4 column1, Vector4 column2, Vector4 column3, Vector4 column4)
     {
         values = new float[4,4];
 
-        //Column1
-        values[0, 0] = column1.x;
+        //     column 1    |
+        values[0, 0] = column1.x; 
         values[1, 0] = column1.y;
         values[2, 0] = column1.z;
         values[3, 0] = column1.w;
 
-        //Column2
+        //      column2      |
         values[0, 1] = column2.x;
         values[1, 1] = column2.y;
         values[2, 1] = column2.z;
         values[3, 1] = column2.w;
 
-        //Column3
+        //      column 3     |
         values[0, 2] = column3.x;
         values[1, 2] = column3.y;
         values[2, 2] = column3.z;
         values[3, 2] = column3.w;
 
-        //Column4
+        //      column 4     |
         values[0, 3] = column4.x;
         values[1, 3] = column4.y;
         values[2, 3] = column4.z;
@@ -275,33 +285,12 @@ public class Matrix4by4
     public Matrix4by4(Vector3 column1, Vector3 column2, Vector3 column3, Vector3 column4)
     {
         values = new float[4, 4];
-
-        //Column1
-        values[0, 0] = column1.x;
-        values[1, 0] = column1.y;
-        values[2, 0] = column1.z;
-        values[3, 0] = 0;
-
-        //Column2
-        values[0, 1] = column2.x;
-        values[1, 1] = column2.y;
-        values[2, 1] = column2.z;
-        values[3, 1] = 0;
-
-        //Column3
-        values[0, 2] = column3.x;
-        values[1, 2] = column3.y;
-        values[2, 2] = column3.z;
-        values[3, 2] = 0;
-
-        //Column4
-        values[0, 3] = column4.x;
-        values[1, 3] = column4.y;
-        values[2, 3] = column4.z;
-        values[3, 3] = 1;
+        //     column 1    |      column2      |      column 3     |      column 4     |
+        values[0, 0] = column1.x; values[0, 1] = column2.x; values[0, 2] = column3.x; values[0, 3] = column4.x;
+        values[1, 0] = column1.y; values[1, 1] = column2.y; values[1, 2] = column3.y; values[1, 3] = column4.y;
+        values[2, 0] = column1.z; values[2, 1] = column2.z; values[2, 2] = column3.z; values[2, 3] = column4.z;
+        values[3, 0] = 0; values[3, 1] = 0; values[3, 2] = 0; values[3, 3] = 0;
     }
-
-    public float[,] values;
 
     public static Vector4 operator *(Matrix4by4 Matrix, Vector4 Vector)
     {
@@ -317,15 +306,6 @@ public class Matrix4by4
     {
         return Matrix * Float;
     }
-
-    //public static Vector3 operator *(Matrix4by4 Matrix, Vector3 Vector)
-    //{
-    //    return new Vector3(
-    //        ((Matrix.values[0, 0] * Vector.x) + (Matrix.values[0, 1] * Vector.y) + (Matrix.values[0, 2] * Vector.z)),
-    //        ((Matrix.values[1, 0] * Vector.x) + (Matrix.values[1, 1] * Vector.y) + (Matrix.values[1, 2] * Vector.z)),
-    //        ((Matrix.values[2, 0] * Vector.x) + (Matrix.values[2, 1] * Vector.y) + (Matrix.values[2, 2] * Vector.z))
-    //        );
-    //}
 
     public static Matrix4by4 operator *(Matrix4by4 Matrix1, Matrix4by4 Matrix2)
     {
@@ -384,5 +364,40 @@ public class Matrix4by4
         rv.values[2, 3] = -values[2, 3];
 
         return rv;
+    }
+
+    public Vector4 col_1
+    {
+        get { return new Vector4(values[0, 0], values[1, 0], values[2, 0], values[3, 0]); }
+    }
+    public Vector4 col_2
+    {
+        get { return new Vector4(values[0, 1], values[1, 1], values[2, 1], values[3, 1]); }
+    }
+    public Vector4 col_3
+    {
+        get { return new Vector4(values[0, 2], values[1, 2], values[2, 2], values[3, 2]); }
+    }
+    public Vector4 col_4
+    {
+        get { return new Vector4(values[0, 3], values[1, 3], values[2, 3], values[3, 3]); }
+    }
+
+    public Matrix4x4 ToUnity()
+    {
+        return new Matrix4x4(col_1, col_2, col_3, col_4);
+    }
+
+    public Quat ToQuat()
+    {
+        float T = 1 + values[0, 0] + values[1, 1] + values[2, 2];
+
+        float S = Mathf.Sqrt(T) * 2;
+        return new Quat(
+            (0.25f * S),
+            ((values[1, 2] - values[2, 1]) / S),
+            ((values[1, 0] - values[0, 2]) / S),
+            ((values[0, 1] - values[1, 0]) / S)
+        );
     }
 }

@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class TranslationMatrix : MonoBehaviour
 {
-    [SerializeField] float Angle;
+    //[SerializeField] float Angle;
+    [SerializeField] Vector3 Angle;
+    [SerializeField] GameObject Object;
 
     void Update()
     {
+        TransformObject();
+    }
 
+    void TransformObject()
+    {
+        //GetRotationMatrix(Angle);
+        //Matrix4by4 mat = rollMatrix(Angle);
+        //pitchMatrix(Angle);
+        //yawMatrix(Angle);
+
+        Object.transform.rotation = Quat.ToUnityQuat(GetRotationMatrix(Angle).ToQuat());
     }
 
     public Matrix4by4 rollMatrix(float Angle)
@@ -50,14 +62,23 @@ public class TranslationMatrix : MonoBehaviour
         return yawMatrix;
     }
 
-    public Matrix4x4 GetRotationMatrix(float pitch, float yaw, float roll)
+    public Matrix4by4 GetRotationMatrix(Vector3 Angle)
     {
-        Matrix4x4 pitchM = pitchMatrix(pitch);
-        Matrix4x4 yawM = yawMatrix(yaw);
-        Matrix4x4 rollM = rollMatrix(roll);
+        Matrix4by4 pitchM = pitchMatrix(Angle.x);
+        Matrix4by4 yawM = yawMatrix(Angle.y);
+        Matrix4by4 rollM = rollMatrix(Angle.z);
 
-        return yawM * (pitchM * rollM)
+        return yawM * (pitchM * rollM);
     }
+
+    //public Matrix4x4 GetRotationMatrix(float Angle)
+    //{
+    //    Matrix4x4 pitchM = pitchMatrix(Angle).ToUnity();
+    //    Matrix4x4 yawM = yawMatrix(Angle).ToUnity();
+    //    Matrix4x4 rollM = rollMatrix(Angle).ToUnity();
+
+    //    return yawM * (pitchM * rollM);
+    //}
 
     // public Matrix4by4 RotateMesh(float Angle)
     // {
