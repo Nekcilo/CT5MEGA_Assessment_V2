@@ -10,10 +10,10 @@ public class TranslationMatrix : MonoBehaviour
 
     void Update()
     {
-        TransformObject();
+        //TransformObject();
     }
 
-    void TransformObject()
+    public void TransformObject()
     {
         //GetRotationMatrix(Angle);
         //Matrix4by4 mat = rollMatrix(Angle);
@@ -22,6 +22,7 @@ public class TranslationMatrix : MonoBehaviour
 
         Object.transform.rotation = Quat.ToUnityQuat(GetRotationMatrix(Angle).ToQuat());
         Debug.Log(Object.transform.rotation);
+
     }
 
     public Matrix4by4 rollMatrix(float Angle)

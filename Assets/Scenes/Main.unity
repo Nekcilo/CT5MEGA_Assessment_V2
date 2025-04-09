@@ -590,7 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820220043b0d8f4418aa0a509b21c465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Angle: 0
+  Angle: {x: 0, y: 0, z: 0}
   Object: {fileID: 1271524815}
 --- !u!1 &1504341242
 GameObject:
@@ -638,6 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d0db2ca93eb5c4587b3ee4d2423c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CubeMatrix: {fileID: 1271524821}
   Speed: 5
   Camera: {fileID: 0}
 --- !u!1 &1561226144

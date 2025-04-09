@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [SerializeField] TranslationMatrix CubeMatrix; 
+
     // === MOVEMENT ===
     [SerializeField] int Speed = 5;
     Vector3 eulerRotation = new Vector3();
@@ -22,20 +25,29 @@ public class PlayerMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        PlayerMove();
         //if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         //{
         //    transform.position += new Vector3(Input.GetAxis("Horizontal") * Speed * Time.deltaTime, 0, Input.GetAxis("Vertical") * Speed * Time.deltaTime);
 
         //}
+
+        if (Input.GetKey(KeyCode.Mouse1)) //Right Mouse Button
+        {
+            CubeMatrix.TransformObject();
+        }
+        else
+        {
+            PlayerMove();
+        }
     }
 
-        private void CameraMove()
+    private void CameraMove()
     {
         Vector3 CameraforwardDirection = new Vector3();
         Vector3 CamerarightDirection = new Vector3();
@@ -71,6 +83,10 @@ public class PlayerMovement : MonoBehaviour
            Vector3 PlayerVector = (transform.forward * (Input.GetAxis("Vertical"))) + (transform.right * (Input.GetAxis("Horizontal")));
            transform.position += PlayerVector * Speed * Time.deltaTime;
         }
+    }
+
+    private void CubeSpin()
+    {
 
     }
 }
