@@ -289,7 +289,7 @@ public class Matrix4by4
         values[0, 0] = column1.x; values[0, 1] = column2.x; values[0, 2] = column3.x; values[0, 3] = column4.x;
         values[1, 0] = column1.y; values[1, 1] = column2.y; values[1, 2] = column3.y; values[1, 3] = column4.y;
         values[2, 0] = column1.z; values[2, 1] = column2.z; values[2, 2] = column3.z; values[2, 3] = column4.z;
-        values[3, 0] = 0; values[3, 1] = 0; values[3, 2] = 0; values[3, 3] = 0;
+        values[3, 0] = 0; values[3, 1] = 0; values[3, 2] = 0; values[3, 3] = 1;
     }
 
     public static Vector4 operator *(Matrix4by4 Matrix, Vector4 Vector)
@@ -312,31 +312,31 @@ public class Matrix4by4
         return new Matrix4by4
             (
               new Vector4(
-              (Matrix1.values[0, 0] * Matrix2.values[0, 0]) + (Matrix1.values[0, 1] * Matrix2.values[0, 0]) + (Matrix1.values[0, 2] * Matrix2.values[0, 0]) + (Matrix1.values[0, 3] * Matrix2.values[0, 0]),
-              (Matrix1.values[0, 0] * Matrix2.values[1, 0]) + (Matrix1.values[0, 1] * Matrix2.values[1, 0]) + (Matrix1.values[0, 2] * Matrix2.values[1, 0]) + (Matrix1.values[0, 3] * Matrix2.values[1, 0]),
-              (Matrix1.values[0, 0] * Matrix2.values[2, 0]) + (Matrix1.values[0, 1] * Matrix2.values[2, 0]) + (Matrix1.values[0, 2] * Matrix2.values[2, 0]) + (Matrix1.values[0, 3] * Matrix2.values[2, 0]),
-              (Matrix1.values[0, 0] * Matrix2.values[3, 0]) + (Matrix1.values[0, 1] * Matrix2.values[3, 0]) + (Matrix1.values[0, 2] * Matrix2.values[3, 0]) + (Matrix1.values[0, 3] * Matrix2.values[3, 0])
+              (Matrix1.values[0, 0] * Matrix2.values[0, 0]) + (Matrix1.values[1, 0] * Matrix2.values[0, 1]) + (Matrix1.values[2, 0] * Matrix2.values[0, 2]) + (Matrix1.values[3, 0] * Matrix2.values[0, 3]),
+              (Matrix1.values[0, 1] * Matrix2.values[0, 0]) + (Matrix1.values[1, 1] * Matrix2.values[0, 1]) + (Matrix1.values[2, 1] * Matrix2.values[0, 2]) + (Matrix1.values[3, 1] * Matrix2.values[0, 3]),
+              (Matrix1.values[0, 2] * Matrix2.values[0, 0]) + (Matrix1.values[1, 2] * Matrix2.values[0, 1]) + (Matrix1.values[2, 2] * Matrix2.values[0, 2]) + (Matrix1.values[3, 2] * Matrix2.values[0, 3]),
+              (Matrix1.values[0, 3] * Matrix2.values[0, 0]) + (Matrix1.values[1, 3] * Matrix2.values[0, 1]) + (Matrix1.values[2, 3] * Matrix2.values[0, 2]) + (Matrix1.values[3, 3] * Matrix2.values[0, 3])
               ),
 
               new Vector4(
-              (Matrix1.values[1, 0] * Matrix2.values[0, 1]) + (Matrix1.values[1, 1] * Matrix2.values[0, 1]) + (Matrix1.values[1, 2] * Matrix2.values[0, 1]) + (Matrix1.values[1, 3] * Matrix2.values[0, 1]),
-              (Matrix1.values[1, 0] * Matrix2.values[1, 1]) + (Matrix1.values[1, 1] * Matrix2.values[1, 1]) + (Matrix1.values[1, 2] * Matrix2.values[1, 1]) + (Matrix1.values[1, 3] * Matrix2.values[1, 1]),
-              (Matrix1.values[1, 0] * Matrix2.values[2, 1]) + (Matrix1.values[1, 1] * Matrix2.values[2, 1]) + (Matrix1.values[1, 2] * Matrix2.values[2, 1]) + (Matrix1.values[1, 3] * Matrix2.values[2, 1]),
-              (Matrix1.values[1, 0] * Matrix2.values[3, 1]) + (Matrix1.values[1, 1] * Matrix2.values[3, 1]) + (Matrix1.values[1, 2] * Matrix2.values[3, 1]) + (Matrix1.values[1, 3] * Matrix2.values[3, 1])
+              (Matrix1.values[0, 0] * Matrix2.values[1, 0]) + (Matrix1.values[1, 0] * Matrix2.values[1, 1]) + (Matrix1.values[2, 0] * Matrix2.values[1, 2]) + (Matrix1.values[3, 0] * Matrix2.values[1, 3]),
+              (Matrix1.values[0, 1] * Matrix2.values[1, 0]) + (Matrix1.values[1, 1] * Matrix2.values[1, 1]) + (Matrix1.values[2, 1] * Matrix2.values[1, 2]) + (Matrix1.values[3, 1] * Matrix2.values[1, 3]),
+              (Matrix1.values[0, 2] * Matrix2.values[1, 0]) + (Matrix1.values[1, 2] * Matrix2.values[1, 1]) + (Matrix1.values[2, 2] * Matrix2.values[1, 2]) + (Matrix1.values[3, 2] * Matrix2.values[1, 3]),
+              (Matrix1.values[0, 3] * Matrix2.values[1, 0]) + (Matrix1.values[1, 3] * Matrix2.values[1, 1]) + (Matrix1.values[2, 3] * Matrix2.values[1, 2]) + (Matrix1.values[3, 3] * Matrix2.values[1, 3])
               ),
 
               new Vector4(
-              (Matrix1.values[2, 0] * Matrix2.values[0, 2]) + (Matrix1.values[2, 1] * Matrix2.values[0, 2]) + (Matrix1.values[2, 2] * Matrix2.values[0, 2]) + (Matrix1.values[2, 3] * Matrix2.values[0, 2]),
-              (Matrix1.values[2, 0] * Matrix2.values[1, 2]) + (Matrix1.values[2, 1] * Matrix2.values[1, 2]) + (Matrix1.values[2, 2] * Matrix2.values[1, 2]) + (Matrix1.values[2, 3] * Matrix2.values[1, 2]),
-              (Matrix1.values[2, 0] * Matrix2.values[2, 2]) + (Matrix1.values[2, 1] * Matrix2.values[2, 2]) + (Matrix1.values[2, 2] * Matrix2.values[2, 2]) + (Matrix1.values[2, 3] * Matrix2.values[2, 2]),
-              (Matrix1.values[2, 0] * Matrix2.values[3, 2]) + (Matrix1.values[2, 1] * Matrix2.values[3, 2]) + (Matrix1.values[2, 2] * Matrix2.values[3, 2]) + (Matrix1.values[2, 3] * Matrix2.values[3, 2])
+              (Matrix1.values[0, 0] * Matrix2.values[2, 0]) + (Matrix1.values[1, 0] * Matrix2.values[2, 1]) + (Matrix1.values[2, 0] * Matrix2.values[2, 2]) + (Matrix1.values[3, 0] * Matrix2.values[2, 3]),
+              (Matrix1.values[0, 1] * Matrix2.values[2, 0]) + (Matrix1.values[1, 1] * Matrix2.values[2, 1]) + (Matrix1.values[2, 1] * Matrix2.values[2, 2]) + (Matrix1.values[3, 1] * Matrix2.values[2, 3]),
+              (Matrix1.values[0, 2] * Matrix2.values[2, 0]) + (Matrix1.values[1, 2] * Matrix2.values[2, 1]) + (Matrix1.values[2, 2] * Matrix2.values[2, 2]) + (Matrix1.values[3, 2] * Matrix2.values[2, 3]),
+              (Matrix1.values[0, 3] * Matrix2.values[2, 0]) + (Matrix1.values[1, 3] * Matrix2.values[2, 1]) + (Matrix1.values[2, 3] * Matrix2.values[2, 2]) + (Matrix1.values[3, 3] * Matrix2.values[2, 3])
               ),
 
               new Vector4(
-              (Matrix1.values[3, 0] * Matrix2.values[0, 3]) + (Matrix1.values[3, 1] * Matrix2.values[0, 3]) + (Matrix1.values[3, 2] * Matrix2.values[0, 3]) + (Matrix1.values[3, 3] * Matrix2.values[0, 3]),
-              (Matrix1.values[3, 0] * Matrix2.values[1, 3]) + (Matrix1.values[3, 1] * Matrix2.values[1, 3]) + (Matrix1.values[3, 2] * Matrix2.values[1, 3]) + (Matrix1.values[3, 3] * Matrix2.values[1, 3]),
-              (Matrix1.values[3, 0] * Matrix2.values[2, 3]) + (Matrix1.values[3, 1] * Matrix2.values[2, 3]) + (Matrix1.values[3, 2] * Matrix2.values[2, 3]) + (Matrix1.values[3, 3] * Matrix2.values[2, 3]),
-              (Matrix1.values[3, 0] * Matrix2.values[3, 3]) + (Matrix1.values[3, 1] * Matrix2.values[3, 3]) + (Matrix1.values[3, 2] * Matrix2.values[3, 3]) + (Matrix1.values[3, 3] * Matrix2.values[3, 3])
+              (Matrix1.values[0, 0] * Matrix2.values[3, 0]) + (Matrix1.values[1, 0] * Matrix2.values[3, 1]) + (Matrix1.values[2, 0] * Matrix2.values[3, 2]) + (Matrix1.values[3, 0] * Matrix2.values[3, 3]),
+              (Matrix1.values[0, 1] * Matrix2.values[3, 0]) + (Matrix1.values[1, 1] * Matrix2.values[3, 1]) + (Matrix1.values[2, 1] * Matrix2.values[3, 2]) + (Matrix1.values[3, 1] * Matrix2.values[3, 3]),
+              (Matrix1.values[0, 2] * Matrix2.values[3, 0]) + (Matrix1.values[1, 2] * Matrix2.values[3, 1]) + (Matrix1.values[2, 2] * Matrix2.values[3, 2]) + (Matrix1.values[3, 2] * Matrix2.values[3, 3]),
+              (Matrix1.values[0, 3] * Matrix2.values[3, 0]) + (Matrix1.values[1, 3] * Matrix2.values[3, 1]) + (Matrix1.values[2, 3] * Matrix2.values[3, 2]) + (Matrix1.values[3, 3] * Matrix2.values[3, 3])
               )
             );
 
@@ -396,7 +396,7 @@ public class Matrix4by4
         return new Quat(
             (0.25f * S),
             ((values[1, 2] - values[2, 1]) / S),
-            ((values[1, 0] - values[0, 2]) / S),
+            ((values[2, 0] - values[0, 2]) / S),
             ((values[0, 1] - values[1, 0]) / S)
         );
     }

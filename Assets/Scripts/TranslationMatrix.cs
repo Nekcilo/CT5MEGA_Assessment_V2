@@ -21,6 +21,7 @@ public class TranslationMatrix : MonoBehaviour
         //yawMatrix(Angle);
 
         Object.transform.rotation = Quat.ToUnityQuat(GetRotationMatrix(Angle).ToQuat());
+        Debug.Log(Object.transform.rotation);
     }
 
     public Matrix4by4 rollMatrix(float Angle)
