@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Inspection")]
+    [SerializeField] TranslationMatrix CubeMatrix;
+    public float rotationSpeed = 100f;
+    private Vector3 previousMousePosition;
 
-    [SerializeField] TranslationMatrix CubeMatrix; 
-
-    // === MOVEMENT ===
+    [Header("Movement")]
     [SerializeField] int Speed = 5;
     Vector3 eulerRotation = new Vector3();
     Vector3 forwardDirection = new Vector3();
     Vector3 rightDirection = new Vector3();
 
-    // === CAMERA ===
+    [Header("Camera")]
     float xSens = 0.05f;
     float ySens = 0.05f;
     [SerializeField] Camera Camera;
@@ -37,9 +39,13 @@ public class PlayerMovement : MonoBehaviour
 
         //}
 
-        if (Input.GetKey(KeyCode.Mouse1)) //Right Mouse Button
+        if (Input.GetMouseButtonDown(1)) //Right Mouse Button
         {
-            CubeMatrix.TransformObject();
+            previousMousePosition = Input.mousePosition;
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            CubeSpin();
         }
         else
         {
@@ -87,6 +93,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void CubeSpin()
     {
+        Vector3 deltaMousePosition = Input.mousePosition - previousMousePosition;
+        Debug.Log(Input.mousePosition);
+
+        float mouseX = deltaMousePosition.y * rotationSpeed * Time.deltaTime;
+        float mouseY = -deltaMousePosition.x * rotationSpeed * Time.deltaTime;
+
+        //mouseX += Input.GetAxis("Mouse X");
+        //mouseY += Input.GetAxis("Mouse Y");
+
+        Vector3 Angle = new Vector3(mouseX, mouseY, 0);
+
+        CubeMatrix.TransformObject(Angle);
+
+        previousMousePosition = Input.mousePosition;
 
     }
 }
