@@ -93,19 +93,20 @@ public class PlayerMovement : MonoBehaviour
     private void CubeSpin()
     {
 
-        mouseY += Input.GetAxisRaw("Mouse X") * Time.deltaTime;
+        mouseY -= Input.GetAxisRaw("Mouse X") * Time.deltaTime;
         mouseX += Input.GetAxisRaw("Mouse Y") * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.E))
-        {
-            Z += 1 * rotationSpeed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            Z -= 1 * rotationSpeed * Time.deltaTime;
-        }
+        //if (Input.GetKey(KeyCode.E))
+        //{
+        //    Z += 1 * rotationSpeed * Time.deltaTime;
+        //}
+        //if (Input.GetKey(KeyCode.Q))
+        //{
+        //    Z -= 1 * rotationSpeed * Time.deltaTime;
+        //}
 
-        Vector3 Angle = new Vector3(-(mouseX * rotationSpeed), Z, mouseY * rotationSpeed);
+                                        // X                Y            Z
+        Vector3 Angle = new Vector3(mouseX * rotationSpeed, 0, mouseY * rotationSpeed);
 
         CubeMatrix.TransformObject(Angle);
 
