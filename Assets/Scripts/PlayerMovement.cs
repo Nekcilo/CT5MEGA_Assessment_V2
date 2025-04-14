@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Inspection")]
     [SerializeField] TranslationMatrix CubeMatrix;
-    public float rotationSpeed = 100f;
+    public float rotationSpeed = 0.01f;
     private Vector3 previousMousePosition;
 
     [Header("Movement")]
@@ -19,15 +19,16 @@ public class PlayerMovement : MonoBehaviour
     float xSens = 0.05f;
     float ySens = 0.05f;
     [SerializeField] Camera Camera;
+    float mouseX = 0;
+    float mouseY = 0;
+    float Z = 0;
 
     float xRotation;
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        
     }
 
     // Update is called once per frame
@@ -39,16 +40,14 @@ public class PlayerMovement : MonoBehaviour
 
         //}
 
-        if (Input.GetMouseButtonDown(1)) //Right Mouse Button
+        if (Input.GetMouseButton(1))
         {
-            previousMousePosition = Input.mousePosition;
-        }
-        else if (Input.GetMouseButton(1))
-        {
+            Cursor.lockState = CursorLockMode.None;
             CubeSpin();
         }
         else
         {
+            Cursor.lockState = CursorLockMode.Locked;
             PlayerMove();
         }
     }
@@ -93,20 +92,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void CubeSpin()
     {
-        Vector3 deltaMousePosition = Input.mousePosition - previousMousePosition;
-        Debug.Log(Input.mousePosition);
 
-        float mouseX = deltaMousePosition.y * rotationSpeed * Time.deltaTime;
-        float mouseY = -deltaMousePosition.x * rotationSpeed * Time.deltaTime;
+        mouseY += Input.GetAxisRaw("Mouse X") * Time.deltaTime;
+        mouseX += Input.GetAxisRaw("Mouse Y") * Time.deltaTime;
 
-        //mouseX += Input.GetAxis("Mouse X");
-        //mouseY += Input.GetAxis("Mouse Y");
+        if (Input.GetKey(KeyCode.E))
+        {
+            Z += 1 * rotationSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Z -= 1 * rotationSpeed * Time.deltaTime;
+        }
 
-        Vector3 Angle = new Vector3(mouseX, mouseY, 0);
+        Vector3 Angle = new Vector3(-(mouseX * rotationSpeed), Z, mouseY * rotationSpeed);
 
         CubeMatrix.TransformObject(Angle);
 
-        previousMousePosition = Input.mousePosition;
 
     }
 }

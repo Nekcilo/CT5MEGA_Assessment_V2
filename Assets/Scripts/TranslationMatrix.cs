@@ -5,20 +5,23 @@ using UnityEngine;
 public class TranslationMatrix : MonoBehaviour
 {
     //[SerializeField] float Angle;
-    //[SerializeField] Vector3 Angle;
+    [SerializeField] Vector3 Angle2;
     [SerializeField] GameObject Object;
 
-    void Update()
+    void FixedUpdate()
     {
-        //TransformObject();
+        //Angle.x = Angle.x + 0.01f;
+        //Angle.y = Angle.y + 0.01f;
+        //Angle.z = Angle.z + 0.01f;
+        //TransformObject(Angle2);
     }
 
     public void TransformObject(Vector3 Angle)
     {
 
-        //Object.transform.rotation = Quat.ToUnityQuat(GetRotationMatrix(Angle).ToQuat());
         Object.transform.rotation = Quat.ToUnityQuat(GetRotationMatrix(Angle).ToQuat());
         //Debug.Log(Object.transform.rotation);
+        Angle2 = Angle;
 
     }
 
