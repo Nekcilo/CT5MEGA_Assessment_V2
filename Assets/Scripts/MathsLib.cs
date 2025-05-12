@@ -147,6 +147,18 @@ public class MyVector3
     {
         return new Vector3(Vec1.xpos, Vec1.ypos, Vec1.zpos);
     }
+    public static Vector3 ToUnityVector(float fl1, float fl2, float fl3)
+    {
+        return new Vector3(fl1, fl2, fl3);
+    }
+
+    public static float ToUnityFloat(float fl)
+    {
+        float rv; 
+
+        return rv = fl;
+    }
+
 
     public static MyVector3 ToMyVector(Vector3 Vec1)
     {

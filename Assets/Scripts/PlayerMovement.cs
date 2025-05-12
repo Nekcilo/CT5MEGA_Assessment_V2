@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] int Speed = 5;
+    [SerializeField] GameObject Capsule;
     Vector3 eulerRotation = new Vector3();
     Vector3 forwardDirection = new Vector3();
     Vector3 rightDirection = new Vector3();
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        Camera.transform.eulerAngles = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -53,51 +55,11 @@ public class PlayerMovement : MonoBehaviour
         upDirection = MathsLib.VectorCrossProduct(forwardDirection, rightDirection);
         //transform.up = upDirection;
 
-        //float YInput = 0;
-        //float XInput = 0;
-
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    YInput--;
-        //}
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    YInput++;
-        //}
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    XInput--;
-        //}
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    XInput++;
-        //}
-
-        //if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-        //{
-
-        //    CameraVector.x = (MathsLib.XDirection(XInput));
-        //    CameraVector.y = (MathsLib.YDirection(YInput));
-
-        //    //Debug.Log("CameraX: " + CameraVector.x);
-        //    //Debug.Log("CameraY: " + CameraVector.y);
-
-        //    currentEulerAngles += new Vector3(CameraVector.y, CameraVector.x, 0) * Time.deltaTime * Sens;
-
-        //    //Debug.Log("CurrentEulerAngles: " + currentEulerAngles);
-
-        //    Camera.transform.eulerAngles = currentEulerAngles;
-        //}
-        //else if (!Input.GetKey(KeyCode.UpArrow) || !Input.GetKey(KeyCode.DownArrow) || !Input.GetKey(KeyCode.LeftArrow) || !Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    YInput = 0;
-        //    XInput = 0;
-        //}
-
-        if (Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
+        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
-            CameraVector.x = Input.GetAxisRaw("Mouse X");
-            CameraVector.y = Input.GetAxisRaw("Mouse Y");
+            CameraVector.x = Input.GetAxis("Mouse X");
+            CameraVector.y = Input.GetAxis("Mouse Y");
+
 
             MyVector3 CameraInput;
 
@@ -107,22 +69,23 @@ public class PlayerMovement : MonoBehaviour
 
             currentEulerAngles = currentEulerAngles + CameraInput; //Must be seperate otherwise it errors :) Because MyVector3 can't += overload
 
+            currentEulerAngles.xpos = Mathf.Clamp(currentEulerAngles.xpos, -90, 90);
+
             Camera.transform.eulerAngles = MyVector3.ToUnityVector(currentEulerAngles);
+
+            Capsule.transform.eulerAngles = MyVector3.ToUnityVector(0f, currentEulerAngles.ypos, 0f);
         }
     }
 
     private void PlayerMove()
     {
-        forwardDirection = MathsLib.EulerAnglesToDirection(new Vector3(0,eulerRotation.y,0));
+        forwardDirection = Camera.transform.forward;
         rightDirection = MyVector3.ToUnityVector(MathsLib.VectorCrossProduct(MyVector3.ToMyVector(forwardDirection), MyVector3.ToMyVector(transform.up)));
-
-        //transform.forward = forwardDirection;
-        //transform.right = rightDirection;
 
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-           //Vector3 PlayerVector = (transform.forward * (Input.GetAxis("Vertical"))) + (transform.right * (Input.GetAxis("Horizontal")));
-           //transform.position += PlayerVector * Speed * Time.deltaTime;
+           Vector3 PlayerVector = (forwardDirection * (Input.GetAxis("Vertical"))) + (rightDirection * (Input.GetAxis("Horizontal")));
+           transform.position += PlayerVector * Speed * Time.deltaTime;
         }
     }
 

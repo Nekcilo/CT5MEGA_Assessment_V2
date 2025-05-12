@@ -2062,6 +2062,7 @@ MonoBehaviour:
   CubeMatrix: {fileID: 691036710}
   rotationSpeed: 1
   Speed: 5
+  Capsule: {fileID: 1928581951}
   Camera: {fileID: 72459458}
 --- !u!1 &1561226144
 GameObject:
