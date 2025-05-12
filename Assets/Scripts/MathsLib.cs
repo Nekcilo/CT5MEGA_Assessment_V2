@@ -39,7 +39,23 @@ public class MathsLib
         return rv;
     }
 
-     public static MyVector3 LinearInterpolation(MyVector3 Vec1, MyVector3 Vec2, float T)
+    public static float YDirection(float Input1)
+    {
+        return Mathf.Sin(Input1); // Y = Sin(P)
+    }
+
+    public static float XDirection(float Input2)
+    {
+        return Mathf.Sin(Input2); // Y = Sin(P)
+        //return Mathf.Cos(Input1) * Mathf.Cos(Input2); // X = Cos(Y) * Cos(P)
+    }
+
+    public static float ZDirection(float Input1, float Input2)
+    {
+        return Mathf.Cos(Input2) * Mathf.Sin(Input1); // X = Cos(P) * Sin(Y)
+    }
+
+    public static MyVector3 LinearInterpolation(MyVector3 Vec1, MyVector3 Vec2, float T)
     {
         return Vec1 * (1.0f - T) + Vec2 * T;
     }
@@ -64,7 +80,6 @@ public class MyVector3
         ypos = y;
         zpos = z;
     }
-
 
     public static MyVector3 Addition(MyVector3 Vec1, MyVector3 Vec2)
     {
@@ -138,6 +153,11 @@ public class MyVector3
         return new MyVector3(Vec1.x, Vec1.y, Vec1.z);
     }
 
+    public MyVector3 ToMyVector()
+    {
+        return new MyVector3(xpos, ypos, zpos);
+    }
+
 
     //Overloads yippppppeeeeeee
     public static MyVector3 operator *(MyVector3 Vec1, float f)
@@ -166,7 +186,7 @@ public class MyVector3
         return Subtraction(Vec1, Vec2);
     }
 
-        public static MyVector3 operator -(MyVector3 Vec1)
+    public static MyVector3 operator -(MyVector3 Vec1)
     {
         return new MyVector3(-Vec1.xpos, -Vec1.ypos, -Vec1.zpos);
     }
