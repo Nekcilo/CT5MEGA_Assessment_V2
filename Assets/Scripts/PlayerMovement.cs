@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         //}
 
                                                             // X                                      Y                                         Z
-        Vector3 Angle = new Vector3(-(mouseX * DotProductFWD + mouseY * DotProductRG) * rotationSpeed, 0, -(mouseX * DotProductRG - mouseY * DotProductFWD) * rotationSpeed);
+        Vector3 Angle = new Vector3((mouseX * DotProductFWD + mouseY * DotProductRG) * rotationSpeed, 0, (mouseX * DotProductRG - mouseY * DotProductFWD) * rotationSpeed);
 
         CubeMatrix.TransformObject(Angle);
     }
