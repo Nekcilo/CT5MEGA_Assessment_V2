@@ -23,6 +23,8 @@ public class Teleport : MonoBehaviour
     float Speed = 1f;
     float Speed2 = 0.8f;
 
+    float Timer;
+
     // Update is called once per frame
     void Update()
     {
@@ -44,27 +46,43 @@ public class Teleport : MonoBehaviour
         GreenCube.transform.position = MathsLib.LinearInterpolation(GreenCube.transform.position, BlueCube.transform.position, (Speed2 * Time.deltaTime));
 
         Vector3 Position3 = new Vector3(35f, 1.5f, -5f);
-        Vector3 Position4 = new Vector3(35f, 4.5f, -5f);
-        Vector3 Position5 = new Vector3(45f, 4.5f, -5f);
+        Vector3 Position4 = new Vector3(35f, 8f, -5f);
+        Vector3 Position5 = new Vector3(45f, 8f, -5f);
         Vector3 Position6 = new Vector3(45f, 1.5f, -5f);
+
+        Timer += Time.deltaTime;
+
+        if (Count != 4)
+        {
+            if (Timer >= 0.9955f)
+            {
+                Count++;
+                Timer = 0;
+            }
+        }
+        else
+        {
+            Count = 0;
+        }
+
 
         switch (Count)
         {
             case 0:
-                BlueCube.transform.position = MathsLib.LinearInterpolation(Position3, Position4, (Time.deltaTime));
-                Count++;
+                BlueCube.transform.position = MathsLib.LinearInterpolation(Position3, Position4, Mathf.PingPong(Time.time, 1.0f));
+
                 break;
             case 1:
-                BlueCube.transform.position = MathsLib.LinearInterpolation(Position4, Position5, (Time.deltaTime));
-                Count++;
+                BlueCube.transform.position = MathsLib.LinearInterpolation(Position5, Position4, Mathf.PingPong(Time.time, 1.0f));
+
                 break;
             case 2:
-                BlueCube.transform.position = MathsLib.LinearInterpolation(Position5, Position6, (Time.deltaTime));
-                Count++;
+                BlueCube.transform.position = MathsLib.LinearInterpolation(Position5, Position6, Mathf.PingPong(Time.time, 1.0f));
+
                 break;
             case 3:
-                BlueCube.transform.position = MathsLib.LinearInterpolation(Position6, Position3, (Time.deltaTime));
-                Count = 0;
+                BlueCube.transform.position = MathsLib.LinearInterpolation(Position3, Position6, Mathf.PingPong(Time.time, 1.0f));
+
                 break;
         }
 

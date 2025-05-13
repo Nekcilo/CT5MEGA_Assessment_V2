@@ -9,6 +9,15 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 0.01f;
     private Vector3 previousMousePosition;
 
+    [SerializeField] GameObject ChessPiece;
+    MyVector3 hidden_dir_forward;
+    MyVector3 hidden_dir_right;
+    MyVector3 Player_pos;
+    MyVector3 Distance;
+    float DotProductFWD;
+    float DotProductRG;
+
+
     [Header("Movement")]
     [SerializeField] int Speed = 5;
     [SerializeField] GameObject Capsule;
@@ -32,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Cursor.visible = false;
         Camera.transform.eulerAngles = Vector3.zero;
+
+        hidden_dir_forward = MyVector3.ToMyVector(ChessPiece.transform.forward); //sets hidden_dir_forward to the current forward direction in the editor
+        hidden_dir_right = MyVector3.ToMyVector(ChessPiece.transform.right); //sets hidden_dir_forward to the current forward direction in the editor
     }
 
     // Update is called once per frame
@@ -92,6 +104,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void CubeSpin()
     {
+        Player_pos = MyVector3.ToMyVector(transform.position);
+        Distance = Player_pos - MyVector3.ToMyVector(ChessPiece.transform.position); // getting the distance from the player position to the constant hidden_dir_forward
+
+        DotProductFWD = MyVector3.DotProduct(Distance, hidden_dir_forward, true);
+        DotProductRG = MyVector3.DotProduct(Distance, hidden_dir_right, true);
 
         mouseY -= Input.GetAxisRaw("Mouse X") * Time.deltaTime;
         mouseX += Input.GetAxisRaw("Mouse Y") * Time.deltaTime;
@@ -105,11 +122,9 @@ public class PlayerMovement : MonoBehaviour
         //    Z -= 1 * rotationSpeed * Time.deltaTime;
         //}
 
-                                        // X                Y            Z
-        Vector3 Angle = new Vector3(mouseX * rotationSpeed, 0, mouseY * rotationSpeed);
+                                                            // X                                      Y                                         Z
+        Vector3 Angle = new Vector3(-(mouseX * DotProductFWD + mouseY * DotProductRG) * rotationSpeed, 0, -(mouseX * DotProductRG - mouseY * DotProductFWD) * rotationSpeed);
 
         CubeMatrix.TransformObject(Angle);
-
-
     }
 }

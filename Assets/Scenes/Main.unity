@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691036709}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d26ca07d3f3e9a48b99e4c9d17312cf, type: 3}
   m_Name: 
@@ -3629,6 +3629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CubeMatrix: {fileID: 691036710}
   rotationSpeed: 1
+  ChessPiece: {fileID: 691036709}
   Speed: 5
   Capsule: {fileID: 1928581951}
   Camera: {fileID: 72459458}

@@ -6,6 +6,7 @@ public class FollowPlayer : MonoBehaviour
 {
 
     MyVector3 hidden_dir;
+    MyVector3 Player_pos;
     [SerializeField] GameObject Player;
 
     MyVector3 Distance;
@@ -18,23 +19,26 @@ public class FollowPlayer : MonoBehaviour
     void Start()
     {
         hidden_dir = MyVector3.ToMyVector(transform.forward); //sets hidden_dir to the current forward direction in the editor
+        Player_pos = MyVector3.ToMyVector(Player.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Distance = MyVector3.ToMyVector(Player.transform.position) - hidden_dir; // getting the distance from the player position to the constant hidden_dir
+        Distance = Player_pos - MyVector3.ToMyVector(transform.position); // getting the distance from the player position to the constant hidden_dir
 
-        LODistance = Distance.Length(); // calculating the length of the new distance vector
+        MyVector3.DotProduct(Distance, hidden_dir, true);
 
-        LOhidden_dir = hidden_dir.Length(); // calculating the length of the original hidden_dir distance
+        //LODistance = Distance.Length(); // calculating the length of the new distance vector
 
-        //these two lengths now make up 2 sides of a triangle, where the angle between can now be calculated
+        //LOhidden_dir = hidden_dir.Length(); // calculating the length of the original hidden_dir distance
 
-        Angle = Mathf.Sin(LOhidden_dir / LODistance); //SohCahToa
+        ////these two lengths now make up 2 sides of a triangle, where the angle between can now be calculated
 
-        Quat tempQuat = new Quat(Angle, 0, 1, 0); //Applying this angle to the Y axis (w,x,y,z)
+        //Angle = Mathf.Cos(LOhidden_dir / LODistance); //SohCahToa
 
-        transform.rotation = Quat.ToUnityQuat(tempQuat); //Applying the new quaternion to the objects rotation
+        //Quat tempQuat = new Quat(Angle, 0, 1, 0); //Applying this angle to the Y axis (w,x,y,z)
+
+        //transform.rotation = Quat.ToUnityQuat(tempQuat); //Applying the new quaternion to the objects rotation
     }
 }
