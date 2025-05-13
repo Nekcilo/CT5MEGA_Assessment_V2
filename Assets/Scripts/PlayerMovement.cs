@@ -84,7 +84,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-           Vector3 PlayerVector = (forwardDirection * (Input.GetAxis("Vertical"))) + (rightDirection * (Input.GetAxis("Horizontal")));
+           Vector3 PlayerVector = (forwardDirection * (Input.GetAxis("Vertical"))) + (-rightDirection * (Input.GetAxis("Horizontal")));
+           PlayerVector.y = 0f;
            transform.position += PlayerVector * Speed * Time.deltaTime;
         }
     }

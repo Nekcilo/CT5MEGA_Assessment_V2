@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 //using System.Numerics;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class MathsLib
 {
@@ -47,12 +46,6 @@ public class MathsLib
     public static float XDirection(float Input2)
     {
         return Mathf.Sin(Input2); // Y = Sin(P)
-        //return Mathf.Cos(Input1) * Mathf.Cos(Input2); // X = Cos(Y) * Cos(P)
-    }
-
-    public static float ZDirection(float Input1, float Input2)
-    {
-        return Mathf.Cos(Input2) * Mathf.Sin(Input1); // X = Cos(P) * Sin(Y)
     }
 
     public static MyVector3 LinearInterpolation(MyVector3 Vec1, MyVector3 Vec2, float T)
@@ -106,6 +99,12 @@ public class MyVector3
         return new MyVector3((Vec1.xpos / Divisor), (Vec1.ypos / Divisor), (Vec1.zpos / Divisor));
     }
 
+    public static float Divide(float Vec1, float Vec2)
+    {
+        float rv; 
+
+        return rv = Vec1 / Vec2;
+    }
 
     public MyVector3 Normalizing()
     {
@@ -147,18 +146,16 @@ public class MyVector3
     {
         return new Vector3(Vec1.xpos, Vec1.ypos, Vec1.zpos);
     }
+
+    public static Vector2 ToUnityVector2(MyVector3 Vec1)
+    {
+        return new Vector2(Vec1.xpos, Vec1.zpos);
+    }
+
     public static Vector3 ToUnityVector(float fl1, float fl2, float fl3)
     {
         return new Vector3(fl1, fl2, fl3);
     }
-
-    public static float ToUnityFloat(float fl)
-    {
-        float rv; 
-
-        return rv = fl;
-    }
-
 
     public static MyVector3 ToMyVector(Vector3 Vec1)
     {
@@ -278,6 +275,10 @@ public class Quat
     public static Quaternion ToUnityQuat(Quat Quat1)
     {
         return new Quaternion(Quat1.x, Quat1.y, Quat1.z, Quat1.w);
+    }
+    public static Quat ToMyQuat(Quaternion Quat1)
+    {
+        return new Quat(Quat1.x, Quat1.y, Quat1.z, Quat1.w);
     }
 }
 
