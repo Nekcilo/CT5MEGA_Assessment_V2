@@ -3470,6 +3470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1504341243}
   - component: {fileID: 1504341244}
+  - component: {fileID: 1504341246}
   - component: {fileID: 1504341245}
   m_Layer: 0
   m_Name: Player
@@ -3507,12 +3508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d0db2ca93eb5c4587b3ee4d2423c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CubeMatrix: {fileID: 691036710}
-  rotationSpeed: 1
-  ChessPiece: {fileID: 691036709}
   Speed: 5
   Capsule: {fileID: 1928581951}
   Camera: {fileID: 72459458}
+  CubeMatrix: {fileID: 691036710}
+  rotationSpeed: 0.01
+  ChessPiece: {fileID: 691036709}
 --- !u!54 &1504341245
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3540,6 +3541,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1504341246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504341242}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4560d30c029d1ae4fb0f3366d6f0d979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectMatrix: {fileID: 691036710}
+  rotationSpeed: 0.01
+  ChessPiece: {fileID: 691036709}
 --- !u!1 &1561226144
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,6 +3772,8 @@ MonoBehaviour:
   Object: {fileID: 1564793175}
   Angle: 0
   Scale: 0
+  Multiplier: 0
+  Timer: 0
   VecPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1605769819
 GameObject:
@@ -4550,6 +4568,7 @@ MonoBehaviour:
   PinkCube: {fileID: 15839537}
   BlueCube: {fileID: 956411391}
   GreenCube: {fileID: 1068783697}
+  time: 0
 --- !u!1 &1928581951
 GameObject:
   m_ObjectHideFlags: 0

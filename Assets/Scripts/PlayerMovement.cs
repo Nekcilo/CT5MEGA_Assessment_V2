@@ -4,20 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Inspection")]
-    [SerializeField] TranslationMatrix CubeMatrix;
-    public float rotationSpeed = 0.01f;
-    private Vector3 previousMousePosition;
-
-    [SerializeField] GameObject ChessPiece;
-    MyVector3 hidden_dir_forward;
-    MyVector3 hidden_dir_right;
-    MyVector3 Player_pos;
-    MyVector3 Distance;
-    float DotProductFWD;
-    float DotProductRG;
-
-
     [Header("Movement")]
     [SerializeField] int Speed = 5;
     [SerializeField] GameObject Capsule;
@@ -29,6 +15,18 @@ public class PlayerMovement : MonoBehaviour
     MyVector3 currentEulerAngles = new MyVector3(0,0,0);
     Vector3 CameraVector;
     float Sens = 100f;
+
+    [Header("Inspection")]
+    [SerializeField] TranslationMatrix CubeMatrix;
+    float rotationSpeed = 1f;
+    private Vector3 previousMousePosition;
+    [SerializeField] GameObject ChessPiece;
+    MyVector3 hidden_dir_forward;
+    MyVector3 hidden_dir_right;
+    MyVector3 Player_pos;
+    MyVector3 Distance;
+    float DotProductFWD;
+    float DotProductRG;
     float mouseX = 0;
     float mouseY = 0;
 
@@ -50,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             Cursor.lockState = CursorLockMode.None;
-            CubeSpin();
+            Inspection();
         }
         else
         {
@@ -97,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CubeSpin()
+    private void Inspection()
     {
         Player_pos = MyVector3.ToMyVector(transform.position);
         Distance = Player_pos - MyVector3.ToMyVector(ChessPiece.transform.position); // getting the distance from the player position to the constant hidden_dir_forward
