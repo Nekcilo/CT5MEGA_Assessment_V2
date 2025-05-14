@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] int Speed = 5;
     [SerializeField] GameObject Capsule;
-    Vector3 eulerRotation = new Vector3();
     Vector3 forwardDirection = new Vector3();
     Vector3 rightDirection = new Vector3();
 
@@ -29,10 +28,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Camera Camera;
     MyVector3 currentEulerAngles = new MyVector3(0,0,0);
     Vector3 CameraVector;
-    float Sens = 500f;
+    float Sens = 100f;
     float mouseX = 0;
     float mouseY = 0;
-    Vector3 upDirection = new Vector3();
 
     float xRotation;
 
@@ -64,9 +62,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void CameraMove()
     {
-        upDirection = MathsLib.VectorCrossProduct(forwardDirection, rightDirection);
-        //transform.up = upDirection;
-
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
             CameraVector.x = Input.GetAxis("Mouse X");

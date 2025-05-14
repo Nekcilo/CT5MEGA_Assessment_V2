@@ -99,11 +99,11 @@ public class MyVector3
         return new MyVector3((Vec1.xpos / Divisor), (Vec1.ypos / Divisor), (Vec1.zpos / Divisor));
     }
 
-    public static float Divide(float Vec1, float Vec2)
+    public static float Divide(float fl1, float fl2)
     {
         float rv; 
 
-        return rv = Vec1 / Vec2;
+        return rv = fl1 / fl2;
     }
 
     public MyVector3 Normalizing()
@@ -139,6 +139,11 @@ public class MyVector3
     {
         //Square Root
         return Mathf.Sqrt((xpos * xpos) + (ypos * ypos) + (zpos * zpos));
+    }
+
+    public static float Distance(MyVector3 Vec1, MyVector3 Vec2)
+    {
+        return Subtraction(Vec1,Vec2).Length();
     }
 
 
